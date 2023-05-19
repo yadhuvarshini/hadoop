@@ -1,0 +1,18 @@
+docker pull sequenceiq/hadoop-docker:latest
+
+docker run -it -p 50070:50070 -p 8088:8088 -p 8042:8042 sequenceiq/hadoop-docker:latest /etc/bootstrap.sh -bash
+
+cd usr/local/hadoop/
+
+
+vi input/data.txt
+
+bin/hadoop fs -mkdir /input
+
+bin/hadoop fs -put input/data.txt /input
+
+bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.0.jar wordcount /input/data.txt /output
+
+
+bin/hdfs dfs -cat /output/*
+
