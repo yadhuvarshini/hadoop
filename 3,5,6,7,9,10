@@ -1,0 +1,125 @@
+EX:10 Install Hadoop single node cluster and run simple applications like wordcount.
+
+IN cmd Prompt:
+● ssh-keygen
+● paste ssh id
+IN DOCKER COMMAD:
+● docker pull sequenceiq/hadoop-docker:latest
+● docker run -it -p 50070:50070 -p 8088:8088 -p 8042:8042 sequenceiq/hadoop-docker:latest
+/etc/bootstrap.sh -bash
+● cd usr/local/hadoop/
+● vi input/data.txt
+● bin/hadoop fs -mkdir /input
+● bin/hadoop fs -put input/data.txt /input
+● bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-example-2.7.0.jar wordcount
+/input/data.txt /output
+● bin/hdfs dfs -cat /output/*
+
+
+EX:9 Implement PaaS-Mobile sensor based IoT application hosted via PaaS environment
+
+#define BLYNK_TEMPLATE_ID "TMPL3gzv7xkjV"
+#define BLYNK_TEMPLATE_NAME "PAAS"
+#define BLYNK_AUTH_TOKEN "aJ_KsN6wGmbZ7s2GnBc1opWwCuKdp4zS"
+#define BLYNK_PRINT Serial
+#define LED 26
+#include <WiFi.h>
+#include <BlynkSimpleEsp32.h>
+#include <DHTesp.h>
+char auth[] = BLYNK_AUTH_TOKEN ;
+char ssid[] = "Wokwi-GUEST";
+char pass[] = "";
+const int DHT_PIN = 15;
+DHTesp dht;
+BlynkTimer timer;
+void sendSensor()
+{
+TempAndHumidity data = dht.getTempAndHumidity();
+Serial.print("Temperature: ");
+Serial.print(data.temperature);
+Serial.println(" C ");
+Serial.print("Humidity: ");
+Serial.print(data.humidity);
+Serial.println(" % ");
+Blynk.virtualWrite(V0, data.temperature);
+Blynk.virtualWrite(V1, data.humidity);
+}
+int SW_State=0;
+BLYNK_WRITE (V2)
+{
+SW_State = param.asInt();
+if (SW_State == 1)
+{
+digitalWrite(LED, HIGH);
+Serial.println("LAMP ON");
+Blynk.virtualWrite(V1, HIGH);
+}
+else
+{
+digitalWrite(LED, LOW);
+Serial.println("LAMP OFF");
+Blynk.virtualWrite(V1, LOW);
+}
+}
+void setup()
+{
+// Debug console
+Serial.begin(115200);
+dht.setup(DHT_PIN, DHTesp::DHT22);
+Blynk.begin(auth, ssid, pass);
+timer.setInterval(1000, sendSensor);
+pinMode(LED, OUTPUT);
+}
+void loop()
+{
+Blynk.run();
+timer.run();
+}
+
+
+EX:3 Use GAE launcher to launch web applications
+
+● gcloud auth login
+● gcloud projects list
+● gcloud config set project project-ID
+● google-cloud-sdk\bin\dev_appserver.py " folder_path"
+● gcloud projects create project_name
+EX:4 Install Google App Engine. Create hello world app and other web applications using python/java
+● gcloud auth login
+● gcloud projects create project_name
+● gcloud projects list
+● gcloud config set project project_ID
+● gcloud app create
+● 6
+● gcloud app deploy
+● git clone https://github.com/GoogleCloudPlatform/python-docs-sample
+● cd python-docs-samples/appengine/standard/hello_world/
+● dev_appserver.py app.yaml
+
+
+ex 5,ex 7
+#!/bin/bash
+yum update -y
+yum -y install httpd
+systemctl enable httpd
+systemctl start httpd
+echo '<html><h1>Hello World!</h1></html>' > /var/www/html/index.html
+
+
+ex 6
+{
+"Version":"2012-10-17",
+"Statement":[
+{
+"Sid":"PublicReadGetObject",
+"Effect":"Allow",
+"Principal":"*",
+"Action":[
+"s3:GetObject"
+],
+"Resource":[
+"arn:aws:s3:::example-bucket/*"
+]
+}
+]
+}
