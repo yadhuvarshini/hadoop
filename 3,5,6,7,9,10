@@ -1,4 +1,4 @@
-EX:10 Install Hadoop single node cluster and run simple applications like wordcount.
+EX:9 Install Hadoop single node cluster and run simple applications like wordcount.
 
 IN cmd Prompt:
 ● ssh-keygen
@@ -16,7 +16,7 @@ IN DOCKER COMMAD:
 ● bin/hdfs dfs -cat /output/*
 
 
-EX:9 Implement PaaS-Mobile sensor based IoT application hosted via PaaS environment
+EX:10 Implement PaaS-Mobile sensor based IoT application hosted via PaaS environment
 
 #define BLYNK_TEMPLATE_ID "TMPL3gzv7xkjV"
 #define BLYNK_TEMPLATE_NAME "PAAS"
